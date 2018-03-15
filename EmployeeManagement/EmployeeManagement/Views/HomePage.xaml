@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement.Views.HomePage">
+    <StackLayout>
+        <Button Text="+" HorizontalOptions="End" WidthRequest="50" Command="{Binding OnAddCommand}"></Button>
+        <StackLayout Orientation="Vertical"   Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
+            <ListView x:Name="list" ItemsSource="{Binding EmployeeList}" HasUnevenRows="True"  VerticalOptions="FillAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate">
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical"  BackgroundColor="White" >
+                                <StackLayout Orientation="Horizontal" >
+                                    <Image Source="image0.png" WidthRequest="100"/>
+                                    <StackLayout Margin="0,40,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Orientation="Vertical">
+                                        <Label IsVisible="False"  Text="{Binding CIN}"
+                                               TextColor="#44454a" 
+                                               FontSize="18" />
+                                        <Label Text="{Binding Name}"
+                                               TextColor="#44454a" 
+                                               FontSize="18" />
+                                        <Label Text="{Binding Department}"
+                                               TextColor="Gray" />
+                                        <Label Text="{Binding GSM}"
+                                               TextColor="#44454a"
+                                               FontSize="15"  />
+                                        <Image Source="edit.png" VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="30">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.TappedCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

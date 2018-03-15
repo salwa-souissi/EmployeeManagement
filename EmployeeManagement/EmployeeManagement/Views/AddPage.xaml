@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement.Views.AddPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Order="Primary"  Text="Add Employee"  Command="{Binding OnSubmitCommand}" />
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <StackLayout >
+            <Label Text="Please fill the following entries :"></Label>
+            <Entry Placeholder="CIN" Text="{Binding CIN}"></Entry>
+            <Entry  Placeholder="Name" Text="{Binding Name}"></Entry>
+            <Entry Placeholder="GSM" Text="{Binding GSM}"></Entry>
+            <Entry  Placeholder="Department" Text="{Binding Department}"></Entry>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

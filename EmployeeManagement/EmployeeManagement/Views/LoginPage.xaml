@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement.Views.LoginPage">
+    <StackLayout>
+        <StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand">
+                <Image Source="root.png"></Image>
+            </StackLayout>
+        <StackLayout Margin="20" VerticalOptions="EndAndExpand">
+            <StackLayout>
+                <Entry Text="{Binding Login}"></Entry>
+                <Entry Text="{Binding Password}"></Entry>
+                    <StackLayout Orientation="Horizontal">
+                        <Button VerticalOptions="EndAndExpand" BackgroundColor="DarkGreen" TextColor="White" Text="Subscribe" HorizontalOptions="StartAndExpand"></Button>
+                        <Button VerticalOptions="EndAndExpand" BackgroundColor="CadetBlue" TextColor="White" Text="Login" Command="{Binding OnSubmitCommand}" HorizontalOptions="EndAndExpand"></Button>
+                    </StackLayout>
+                </StackLayout>
+        </StackLayout>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
