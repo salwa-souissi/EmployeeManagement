@@ -2,27 +2,37 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
+using EmployeeManagement.Services;
 using EmployeeManagement.Views;
 using Xamarin.Forms;
 using static Xamarin.Forms.DependencyService;
 
 namespace EmployeeManagement.ViewModels
 {
-    partial class HomeViewModel : BaseViewModel
+    public class HomeViewModel : BaseViewModel
     {
 
         #region Fields
-        public Command<Object> tapCommand;
+        public Command<Object> updateCommand;
+        public Command<Object> deleteCommand;
+
         #endregion
 
         #region Properties
 
-        public Command<Object> TappedCommand
+        public Command<Object> UpdateCommand
         {
-            get { return tapCommand; }
-            set { tapCommand = value; }
+            get { return updateCommand; }
+            set { updateCommand = value; }
+        }
+
+        public Command<Object> DeleteCommand
+        {
+            get { return deleteCommand; }
+            set { deleteCommand = value; }
         }
 
 
@@ -54,34 +64,81 @@ namespace EmployeeManagement.ViewModels
 
         public HomeViewModel(INavigation nav)
         {
+            Data d = new Data();
+            _employeeList = d.EmployeeList;
+
             _nav = nav;
-           CurrentPage = DependencyInject<HomePage>.Get();
-           OpenPage(); 
-            tapCommand = new Command<object>(OnTapped);
+            CurrentPage = DependencyInject<HomePage>.Get();
+            OpenPage();
+
+
+            updateCommand = new Command<object>(OnUpdate);
+            deleteCommand = new Command<object>(OnDelete);
+
         }
+
+        #region Consructor with list
+
+        public HomeViewModel(INavigation nav, ObservableCollection<Employee> emp)
+        {
+
+            EmployeeList = emp;
+
+            _nav = nav;
+            CurrentPage = DependencyInject<HomePage>.Get();
+            OpenPage();
+
+
+            updateCommand = new Command<object>(OnUpdate);
+            deleteCommand = new Command<object>(OnDelete);
+
+        }
+
+        #endregion
+
+
+
+
         #endregion
 
         #region OnAddCommand Treatment
         public ICommand OnAddCommand => new Command(async () =>
               {
 
-                  var page = DependencyService.Get<AddViewModel>() ?? (new AddViewModel(_nav));
+                  var page = DependencyService.Get<AddViewModel>() ?? (new AddViewModel(_nav, _employeeList));
 
               });
         #endregion
-       
-        #region OnTapped Method Implementation
 
-        public void OnTapped(Object o)
+        #region OnUpdate Method Implementation
+
+        public void OnUpdate(Object o)
         {
-            var nextPage = new UpdatePage();
-            nextPage.BindingContext = o;
-            Nav.PushAsync(nextPage);
+            Employee E = (Employee)o;
+            var page = DependencyService.Get<UpdateViewModel>() ?? (new UpdateViewModel(_nav,E, _employeeList));
+
+
         }
 
         #endregion
 
-       
+        #region OnDelete Method Implementation
+
+        public void OnDelete(Object o)
+        {
+
+            
+            Employee E = (Employee)o;
+            ObservableCollection<Employee> EmpList = _employeeList;
+            if (EmpList.Contains(E))
+            {
+                EmpList.Remove(E);
+            }
+            EmployeeList = EmpList;
+            }
+        
+        #endregion
+
 
     }
 

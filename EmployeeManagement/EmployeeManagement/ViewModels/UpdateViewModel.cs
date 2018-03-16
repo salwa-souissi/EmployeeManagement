@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
+using EmployeeManagement.Services;
 using EmployeeManagement.Views;
 using Xamarin.Forms;
 
@@ -16,7 +18,6 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Properties
-
         public String title { get; set; }
         public String text { get; set; }
 
@@ -28,6 +29,8 @@ namespace EmployeeManagement.ViewModels
             }
             set { _nav = value; }
         }
+
+        private ObservableCollection<Employee> emplist { get; set; }
 
         #endregion
 
@@ -109,31 +112,48 @@ namespace EmployeeManagement.ViewModels
         }
         #endregion
 
-        #region OnUpdateCommand Tratment 
-        public ICommand OnUpdateCommand => new Command(async () =>
-                {
-                    foreach (Employee emp in EmployeeList)
-                    {
-                        if (emp._cin == _cin)
-                        {
-                            emp._cin = _cin;
-                            emp._name = _name;
-                            emp._gsm = _gsm;
-                            emp._department = _department;
-                           
-                        }
+        #region Constructor with parameters
+        public UpdateViewModel(INavigation nav, Employee o,ObservableCollection<Employee> _employeeList)
+        {
+            _nav = nav;
+            CurrentPage = DependencyInject<UpdatePage>.Get();
+            OpenPage();
+            CIN = o._cin;
+            Name= o._name;
+            GSM = o._gsm;
+            Department= o._department;
+            emplist=new ObservableCollection<Employee>(
+                );
+            emplist = _employeeList;
 
-                    }
-                    var page = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav));
-
-
-                });
-
-
+        }
         #endregion
 
 
-      
+        #region OnUpdateCommand Tratment 
+        public ICommand OnUpdateCommand => new Command(async () =>
+        {
+
+            //Data d = new Data();
+            //ObservableCollection<Employee> EmpList = d.EmployeeList;
+            foreach (Employee emp in emplist)
+            {
+                if (emp._cin == _cin)
+                {
+                    emp._cin = _cin;
+                    emp._name = _name;
+                    emp._gsm = _gsm;
+                    emp._department = _department;
+                }
+            }
+            _employeeList = emplist;
+            var page = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav, _employeeList));
+            });
+        
+        #endregion
+
+
+
 
 
     }

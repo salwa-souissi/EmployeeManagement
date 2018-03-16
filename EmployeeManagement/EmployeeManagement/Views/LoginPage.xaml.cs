@@ -15,7 +15,6 @@ namespace EmployeeManagement.Views
 		public LoginPage ()
 		{
 		    
-		  //  LoginViewModel.DisplayPrompt += () => DisplayAlert(LoginViewModel.title, LoginViewModel.text, "ok");
 		    InitializeComponent();
 
 

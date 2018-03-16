@@ -14,16 +14,19 @@ namespace EmployeeManagement
 		{
 			InitializeComponent();
 
-         
+            var model = DependencyInject<LoginViewModel>.Get();
 
+            model.CurrentPage = DependencyInject<Views.LoginPage>.Get();
 
-		    var model = DependencyInject<LoginViewModel>.Get();  
-		    model.CurrentPage = DependencyInject<Views.LoginPage>.Get();  
-		    model.CurrentPage.BindingContext = model;     
-		    var nav = new NavigationPage(model.CurrentPage);
-		    model._nav = nav.Navigation;
-		    MainPage = nav;
+            model.CurrentPage.BindingContext = model;
 
+            var nav = new NavigationPage(model.CurrentPage);
+
+            model._nav = nav.Navigation;
+
+            MainPage = nav;
+
+     
         }
 
         protected override void OnStart ()

@@ -2,18 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EmployeeManagement.Views.HomePage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Order="Primary"  Text="Add Employee"  Command="{Binding OnAddCommand}" />
+    </ContentPage.ToolbarItems>
     <StackLayout>
-        <Button Text="+" HorizontalOptions="End" WidthRequest="50" Command="{Binding OnAddCommand}"></Button>
         <StackLayout Orientation="Vertical"   Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
             <ListView x:Name="list" ItemsSource="{Binding EmployeeList}" HasUnevenRows="True"  VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate">
                         <ViewCell>
-                            <StackLayout Orientation="Vertical"  BackgroundColor="White" >
-                                <StackLayout Orientation="Horizontal" >
-                                    <Image Source="image0.png" WidthRequest="100"/>
-                                    <StackLayout Margin="0,40,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal" >
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackLayout Margin="0,10,0,0" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"
+                                                 Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                                         <Label IsVisible="False"  Text="{Binding CIN}"
                                                TextColor="#44454a" 
                                                FontSize="18" />
@@ -25,13 +33,21 @@
                                         <Label Text="{Binding GSM}"
                                                TextColor="#44454a"
                                                FontSize="15"  />
-                                        <Image Source="edit.png" VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="30">
+                                    </StackLayout>
+
+                                    <StackLayout  HorizontalOptions="EndAndExpand" Margin="0,10,0,0"  Grid.Column="1" Grid.Row="0">
+                                        <Image Source="delete.png" WidthRequest="20">
                                             <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.TappedCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                        <Image Source="edit.png" WidthRequest="20" >
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.UpdateCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
                                             </Image.GestureRecognizers>
                                         </Image>
                                     </StackLayout>
-                                </StackLayout>
+                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

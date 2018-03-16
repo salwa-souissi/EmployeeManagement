@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using EmployeeManagement.Annotations;
 using Xamarin.Forms;
 
@@ -13,6 +14,19 @@ namespace EmployeeManagement.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        public ObservableCollection<Employee> _employeeList;
+
+        public ObservableCollection<Employee> EmployeeList {
+            get { return _employeeList; }
+            set { SetProperty(ref _employeeList, value); } }
+
+        public Action DisplayPrompt;
+        public Action DisplayPromptWithValidation;
+
+
+        public string Alerttitle { get; set; }
+        public string Alertmsg { get; set; }
 
         #region Navigation
         public INavigation _nav;
@@ -28,50 +42,14 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
-       
-
-        #region EmployeeList
-        public ObservableCollection<Employee> EmployeeList { get; set; }
-        #endregion
-
         #region Constructor without parametrs
 
         public BaseViewModel()
         {
-            EmployeeList = new ObservableCollection<Employee>();
-
-            EmployeeList.Add(new Employee
-            {
-                _cin = "01234567",
-                _name = "Mohamed",
-                _gsm = "22 011 011",
-                _department = "FrontEnd"
-            });
-            EmployeeList.Add(
-                new Employee
-                {
-                    _cin = "98765432",
-                    _name = "Salah",
-                    _gsm = "22 011 011",
-                    _department = "BackEnd"
-                });
-            EmployeeList.Add(new Employee
-            {
-                _cin = "09834567",
-                _name = "Ali",
-                _gsm = "22 011 011",
-                _department = "Services"
-            });
-            EmployeeList.Add(new Employee
-            {
-                _cin = "01247824",
-                _name = "Hsan",
-                _gsm = "22 011 011",
-                _department = "Web API"
-
-            });
+            this.DisplayPrompt += () => CurrentPage.DisplayAlert(Alerttitle, Alertmsg, "ok");
         }
         #endregion
+
 
         #region IsBusy parameter
 
@@ -155,6 +133,13 @@ namespace EmployeeManagement.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         }
+
+        #endregion
+
+        #region DisplayAlert
+
+
+
 
         #endregion
 

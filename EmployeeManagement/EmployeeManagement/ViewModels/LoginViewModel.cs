@@ -10,13 +10,11 @@ namespace EmployeeManagement.ViewModels
     {
 
         #region Fields
-        public Action DisplayPrompt;
         #endregion
 
         #region Properties
 
-        public string title { get; set; }
-        public string text { get; set; }
+     
 
         public INavigation Nav
         {
@@ -88,15 +86,15 @@ namespace EmployeeManagement.ViewModels
                {
                if (_login != "salwa" || _password != "salwa")
                {
-                   title = "Error";
-                   text = "Please verify your login and password";
+                   Alerttitle = "Error";
+                   Alertmsg = "Please verify your login and password";
                    DisplayPrompt();
                }
                else
                {
-                 
-                   }
                    var page1 = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav));
+
+                   }
                });
 
         #endregion

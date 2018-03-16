@@ -4,20 +4,20 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
+using EmployeeManagement.Services;
 using EmployeeManagement.Views;
 using Xamarin.Forms;
 
 namespace EmployeeManagement.ViewModels
 {
     class AddViewModel : BaseViewModel
-    { 
+    {
         #region Fields
         public Action DisplayPrompt;
 
         #endregion
 
         #region Properties
-
         public String title { get; set; }
         public String text { get; set; }
         private INavigation _navigation;
@@ -30,6 +30,9 @@ namespace EmployeeManagement.ViewModels
             }
             set { _nav = value; }
         }
+
+        private ObservableCollection<Employee> emplist { get; set; }
+
         #endregion
 
         #region CIN Property
@@ -105,11 +108,14 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Constructor with parameter
-        public AddViewModel(INavigation nav)
+        public AddViewModel(INavigation nav, ObservableCollection<Employee> _employeeList)
         {
             _nav = nav;
             CurrentPage = DependencyInject<AddPage>.Get();
             OpenPage();
+            emplist = new ObservableCollection<Employee>(
+            );
+            emplist = _employeeList;
         }
 
         #endregion
@@ -117,20 +123,26 @@ namespace EmployeeManagement.ViewModels
         #region OnSubmitCommand Treatment
 
         public ICommand OnSubmitCommand => new Command(async () =>
-         {
-             EmployeeList.Add(new Employee
-                 {_cin= _cin,
-                     _name=_name,
-                     _gsm=_gsm,
-                     _department=_department });
-             var page = DependencyService.Get<ViewModels.HomeViewModel>() ?? (new HomeViewModel(_nav));
+        {
+            Employee Emp = new Employee
+            {
+                _cin = _cin,
+                _name = _name,
+                _gsm = _gsm,
+                _department = _department
+            };
 
 
-         });
+            emplist.Add(Emp);
+            _employeeList = emplist;
+            var page = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav, _employeeList));
+
+
+        });
 
         #endregion
 
-      
+
     }
 }
 
