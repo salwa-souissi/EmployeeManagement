@@ -6,19 +6,32 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using EmployeeManagement.Annotations;
+using EmployeeManagement.Models;
+using Root.Services.Sqlite;
 using Xamarin.Forms;
 
 namespace EmployeeManagement.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+
+        #region DataBase
+
+         public IDataStore<User> DataUser => DependencyService.Get<DataStore<User>>() ?? (new DataStore<User>("DataBase.db3"));
+        public IDataStore<Employee> DataEmployee => DependencyService.Get<DataStore<Employee>>() ?? (new DataStore<Employee>("DataBase.db3"));
+
+            
+        #endregion
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-        public ObservableCollection<Employee> _employeeList;
+        public ObservableCollection<Employee> _employeeList=new ObservableCollection<Employee>();
 
         public ObservableCollection<Employee> EmployeeList {
-            get { return _employeeList; }
+            get
+            {
+                return _employeeList;
+            }
             set { SetProperty(ref _employeeList, value); } }
 
         public Action DisplayPrompt;
@@ -42,14 +55,78 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
+        #region CIN Property
+        public string _cin;
+        public string CIN
+        {
+            get
+            {
+                return _cin;
+            }
+            set
+            {
+                SetProperty(ref _cin, value);
+            }
+        }
+        #endregion
+
+        #region Name Property
+        public String _name;
+        public String Name
+        {
+            get
+            {
+                return _name;
+
+            }
+            set
+            {
+                SetProperty(ref _name, value);
+            }
+        }
+        #endregion
+
+        #region GSM Property
+        public String _gsm;
+        public String GSM
+        {
+            get
+            {
+                return _gsm;
+            }
+            set
+            {
+                SetProperty(ref _gsm, value);
+            }
+        }
+        #endregion
+
+        #region Department Property
+        public String _department;
+        public String Department
+        {
+            get
+            {
+                return _department;
+            }
+            set
+            {
+                SetProperty(ref _department, value);
+            }
+        }
+
+        #endregion
+
         #region Constructor without parametrs
 
         public BaseViewModel()
         {
             this.DisplayPrompt += () => CurrentPage.DisplayAlert(Alerttitle, Alertmsg, "ok");
+            DataUser.CreateTableAsync();
+            DataEmployee.CreateTableAsync();
+
         }
         #endregion
-
 
         #region IsBusy parameter
 
@@ -136,12 +213,7 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
-        #region DisplayAlert
-
-
-
-
-        #endregion
+    
 
     }
 

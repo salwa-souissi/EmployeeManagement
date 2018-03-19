@@ -1,58 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EmployeeManagement.Views.HomePage">
+             x:Class="EmployeeManagement.Views.HomePage"
+             BackgroundImage="back.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem  Order="Primary"  Text="Add Employee"  Command="{Binding OnAddCommand}" />
     </ContentPage.ToolbarItems>
-    <StackLayout>
-        <StackLayout Orientation="Vertical"   Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
-            <ListView x:Name="list" ItemsSource="{Binding EmployeeList}" HasUnevenRows="True"  VerticalOptions="FillAndExpand">
+    <StackLayout x:Name="ListEmployees">
+        <SearchBar x:Name="SearchBar" PlaceholderColor="#004d40" Placeholder="Search an Employee here !"  Text="{Binding Bar}" TextChanged="SearchBar_OnTextChanged"
+                   SearchCommand="{Binding SearchCommand}"></SearchBar>
+        <StackLayout Orientation="Vertical"  Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
+            <ListView x:Name="list"   HasUnevenRows="True"  VerticalOptions="FillAndExpand" ItemTapped="ListView_OnItemTapped"  >
                 <ListView.ItemTemplate>
-                    <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate">
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal" >
-                                <Grid HorizontalOptions="FillAndExpand">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80*"/>
-                                        <ColumnDefinition Width="20*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <StackLayout Margin="0,10,0,0" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"
-                                                 Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                                        <Label IsVisible="False"  Text="{Binding CIN}"
-                                               TextColor="#44454a" 
-                                               FontSize="18" />
-                                        <Label Text="{Binding Name}"
-                                               TextColor="#44454a" 
-                                               FontSize="18" />
-                                        <Label Text="{Binding Department}"
-                                               TextColor="Gray" />
-                                        <Label Text="{Binding GSM}"
-                                               TextColor="#44454a"
-                                               FontSize="15"  />
+                    <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate" >
+                        <ViewCell >
+                            <StackLayout Orientation="Vertical" >
+                                <StackLayout Margin="10,10,0,0">
+                                    <Label IsVisible="False"  Text="{Binding CIN}" TextColor="#44454a" FontSize="20" />
+                                    <Label Text="{Binding Name}" TextColor="#004d40" FontSize="24" />
+                                    <Label Text="{Binding Department}" TextColor="White" FontSize="18" />
+                                    <Label Text="{Binding GSM}" TextColor="#004d40" FontSize="15"  />
                                     </StackLayout>
-
-                                    <StackLayout  HorizontalOptions="EndAndExpand" Margin="0,10,0,0"  Grid.Column="1" Grid.Row="0">
-                                        <Image Source="delete.png" WidthRequest="20">
-                                            <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
-                                            </Image.GestureRecognizers>
-                                        </Image>
-                                        <Image Source="edit.png" WidthRequest="20" >
-                                            <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference list}, Path=BindingContext.UpdateCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
-                                            </Image.GestureRecognizers>
-                                        </Image>
+                                    <StackLayout IsVisible="{Binding IsVisible}" Orientation="Horizontal" Margin="0,10,10,0" HorizontalOptions="EndAndExpand" >
+                                        <Button Text="Details"  BackgroundColor="White" TextColor="#004d40"  FontSize="10" Command="{Binding Source={x:Reference list}, Path=BindingContext.DetailsDisplayCommand}" CommandParameter="{Binding}"/>
+                                        <Button Text="Edit"  BackgroundColor="#89cec8" TextColor="#004d40"  FontSize="10"  Command="{Binding Source={x:Reference list}, Path=BindingContext.UpdateCommand}" CommandParameter="{Binding}"/>
+                                        <Button Text="Delete"  BackgroundColor="#48958c" TextColor="White"  FontSize="10"  Command="{Binding Source={x:Reference list}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}" />
                                     </StackLayout>
-                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+
             </ListView>
         </StackLayout>
     </StackLayout>
+
 </ContentPage>

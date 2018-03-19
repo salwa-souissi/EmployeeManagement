@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement.Views.DetailsPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#387e74">
+    <StackLayout>
+
+        <StackLayout  x:Name="EmployeeDetails" Padding="25" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Frame CornerRadius="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="#83bfb8" HasShadow="True">
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+<Image Source="image0.png" WidthRequest="200" Margin="10"></Image>
+                    <Label HorizontalOptions="CenterAndExpand" Text="{Binding Name}" Font="Bold" FontSize="24"></Label>
+                    <Label HorizontalOptions="CenterAndExpand" Text="{Binding CIN}" TextColor="White" FontSize="18"></Label>
+                    <Label HorizontalOptions="CenterAndExpand" Text="{Binding GSM}" TextColor="White" FontSize="24"></Label>
+                    <Label HorizontalOptions="CenterAndExpand" Text="{Binding Department}" FontSize="20"></Label>
+
+                    <Button CornerRadius="40" BorderWidth="0.5" Margin="0,20,0,0" HeightRequest="40" BorderColor="White"  VerticalOptions="EndAndExpand" BackgroundColor="Transparent" TextColor="White" Text="Back" Command="{Binding OnBackCommand}" HorizontalOptions="CenterAndExpand" ></Button>
+
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+
+    </StackLayout>
+
+
+</ContentPage>

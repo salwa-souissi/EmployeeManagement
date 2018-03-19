@@ -31,74 +31,10 @@ namespace EmployeeManagement.ViewModels
             set { _nav = value; }
         }
 
-        private ObservableCollection<Employee> emplist { get; set; }
 
         #endregion
 
-        #region CIN Property
-        public string _cin;
-        public string CIN
-        {
-            get
-            {
-                return _cin;
-            }
-            set
-            {
-                SetProperty(ref _cin, value);
-            }
-        }
-
-        #endregion
-
-        #region Name Property
-        public String _name;
-        public String Name
-        {
-            get
-            {
-                return _name;
-
-            }
-            set
-            {
-                SetProperty(ref _name, value);
-            }
-        }
-
-        #endregion
-
-        #region GSM Property
-        public String _gsm;
-        public String GSM
-        {
-            get
-            {
-                return _gsm;
-            }
-            set
-            {
-                SetProperty(ref _gsm, value);
-            }
-        }
-
-        #endregion
-
-        #region Department Property
-        public String _department;
-        public String Department
-        {
-            get
-            {
-                return _department;
-            }
-            set
-            {
-                SetProperty(ref _department, value);
-            }
-        }
-
-        #endregion
+        
 
         #region Constructor without parameters
         public AddViewModel()
@@ -108,14 +44,12 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Constructor with parameter
-        public AddViewModel(INavigation nav, ObservableCollection<Employee> _employeeList)
+        public AddViewModel(INavigation nav)
         {
             _nav = nav;
             CurrentPage = DependencyInject<AddPage>.Get();
             OpenPage();
-            emplist = new ObservableCollection<Employee>(
-            );
-            emplist = _employeeList;
+
         }
 
         #endregion
@@ -126,16 +60,25 @@ namespace EmployeeManagement.ViewModels
         {
             Employee Emp = new Employee
             {
-                _cin = _cin,
-                _name = _name,
-                _gsm = _gsm,
-                _department = _department
+                CIN = _cin,
+                Name = _name,
+                GSM = _gsm,
+                Department = _department,
+                IsVisible=false
             };
 
 
-            emplist.Add(Emp);
-            _employeeList = emplist;
-            var page = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav, _employeeList));
+            try
+            {
+                await DataEmployee.AddAsync(Emp);
+                await _nav.PopAsync();
+
+            }
+            catch (Exception e)
+            {
+                await CurrentPage.DisplayAlert("no", e.Message, "ok");
+            }
+
 
 
         });

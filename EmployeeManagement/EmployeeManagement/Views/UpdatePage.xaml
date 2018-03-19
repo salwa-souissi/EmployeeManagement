@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EmployeeManagement.Views.UpdatePage">
+             x:Class="EmployeeManagement.Views.UpdatePage"
+             BackgroundImage="back.png">
     <ContentPage.ToolbarItems>
         <ToolbarItem  Order="Primary"  Text="Update Employee"  Command="{Binding OnUpdateCommand}" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <StackLayout >
-            <Label Text="Please fill the following entries :"></Label>
-            <Entry Text="{Binding CIN}"></Entry>
-            <Entry  Text="{Binding Name}"></Entry>
-            <Entry Text="{Binding GSM}"></Entry>
-            <Entry  Text="{Binding Department}"></Entry>
+        <StackLayout VerticalOptions="CenterAndExpand" >
+            <Label Text="Please modify the desired entries to update the employee data :" Style="{StaticResource TitleStyle}"></Label>
+            <Entry  Text="{Binding CIN}"  Margin="40,0,40,10"    ></Entry>
+            <Entry  Text="{Binding Name}"  Margin="40,0,40,10"  ></Entry>
+            <Entry Text="{Binding GSM}"  Margin="40,0,40,10"   ></Entry>
+            <Entry  Text="{Binding Department}"  Margin="40,0,40,10"  ></Entry>
         </StackLayout>
     </StackLayout>
 </ContentPage>

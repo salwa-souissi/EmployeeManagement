@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
-using EmployeeManagement.Services;
 using EmployeeManagement.Views;
 using Xamarin.Forms;
 
 namespace EmployeeManagement.ViewModels
 {
-    class UpdateViewModel : BaseViewModel
+    class DetailsViewModel : BaseViewModel
     {
-
         #region Fields
-        public Action DisplayPrompt;
         #endregion
 
         #region Properties
         public String title { get; set; }
         public String text { get; set; }
         private Employee Emp { get; set; }
-        public INavigation Nav
+        public INavigation  Nav
         {
             get
             {
@@ -33,17 +28,17 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Constructor without parameter
-        public UpdateViewModel()
+        public DetailsViewModel()
         {
 
         }
         #endregion
 
         #region Constructor with parameters
-        public UpdateViewModel(INavigation nav, Employee o)
+        public DetailsViewModel(INavigation nav, Employee o)
         {
             _nav = nav;
-            CurrentPage = DependencyInject<UpdatePage>.Get();
+            CurrentPage = DependencyInject<DetailsPage>.Get();
             OpenPage();
             CIN = o.CIN;
             Name = o.Name;
@@ -54,37 +49,15 @@ namespace EmployeeManagement.ViewModels
         }
         #endregion
 
-        #region OnUpdateCommand Tratment 
-        public ICommand OnUpdateCommand => new Command(async () =>
+        #region OnBackCommand Treatment
+        public ICommand OnBackCommand => new Command(async () =>
         {
 
-            await DataEmployee.GetAllAsync(x => x.Id.Equals(Emp.Id));
-
-            Emp.CIN = _cin;
-            Emp.Name = _name;
-            Emp.GSM = _gsm;
-            Emp.Department = _department;
-
-
-            try
-            {
-                await DataEmployee.UpdateAsync(Emp);
-                await _nav.PopAsync();
-            }
-            catch (Exception e)
-            {
-                await CurrentPage.DisplayAlert("no", "no", "ok");
-
-            }
+            await _nav.PopAsync();
 
         });
-
         #endregion
-
-
-
 
 
     }
 }
-

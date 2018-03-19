@@ -166,11 +166,11 @@ namespace EmployeeManagement.Annotations
   ///   [NotifyPropertyChangedInvocator]
   ///   protected virtual void NotifyChanged(string propertyName) { ... }
   ///
-  ///   string _name;
+  ///   string Name;
   /// 
   ///   public string Name {
-  ///     get { return _name; }
-  ///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+  ///     get { return Name; }
+  ///     set { Name = value; NotifyChanged("LastName"); /* Warning */ }
   ///   }
   /// }
   /// </code>

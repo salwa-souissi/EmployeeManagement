@@ -22,32 +22,32 @@ namespace EmployeeManagement.Services
 
             EmployeeList.Add(new Employee
             {
-                _cin = "01234567",
-                _name = "Mohamed",
-                _gsm = "22 011 011",
-                _department = "FrontEnd"
+                CIN = "01234567",
+                Name = "Mohamed",
+                GSM = "22 011 011",
+                Department = "FrontEnd"
             });
             EmployeeList.Add(
                 new Employee
                 {
-                    _cin = "98765432",
-                    _name = "Salah",
-                    _gsm = "22 011 011",
-                    _department = "BackEnd"
+                    CIN = "98765432",
+                    Name = "Salah",
+                    GSM = "22 011 011",
+                    Department = "BackEnd"
                 });
             EmployeeList.Add(new Employee
             {
-                _cin = "09834567",
-                _name = "Ali",
-                _gsm = "22 011 011",
-                _department = "Services"
+                CIN = "09834567",
+                Name = "Ali",
+                GSM = "22 011 011",
+                Department = "Services"
             });
             EmployeeList.Add(new Employee
             {
-                _cin = "01247824",
-                _name = "Hsan",
-                _gsm = "22 011 011",
-                _department = "Web API"
+                CIN = "01247824",
+                Name = "Hsan",
+                GSM = "22 011 011",
+                Department = "Web API"
 
             });
 
@@ -80,13 +80,13 @@ namespace EmployeeManagement.Services
         //{
         //    foreach (Employee e in EmployeeList)
         //    {
-        //        if (e._cin == emp._cin)
+        //        if (e.CIN == emp.CIN)
 
         //        {
-        //            e._cin = emp._cin;
-        //            e._name = emp._name;
-        //            e._gsm = emp._gsm;
-        //            e._department = emp._department;
+        //            e.CIN = emp.CIN;
+        //            e.Name = emp.Name;
+        //            e.GSM = emp.GSM;
+        //            e.Department = emp.Department;
         //        }
         //    }
         //}

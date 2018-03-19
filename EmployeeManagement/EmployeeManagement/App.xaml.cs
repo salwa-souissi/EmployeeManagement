@@ -22,6 +22,8 @@ namespace EmployeeManagement
 
             var nav = new NavigationPage(model.CurrentPage);
 
+		    nav.BarBackgroundColor = Color.FromHex("#004D40");
+
             model._nav = nav.Navigation;
 
             MainPage = nav;

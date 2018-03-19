@@ -1,22 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EmployeeManagement.Views.LoginPage">
+             x:Class="EmployeeManagement.Views.LoginPage"
+             NavigationPage.HasNavigationBar="False"
+            BackgroundImage="back.jpg">
     <StackLayout>
-        <StackLayout>
             <StackLayout HorizontalOptions="FillAndExpand">
-                <Image Source="root.png"></Image>
+                <Image Source="root1.png" HorizontalOptions="CenterAndExpand" ></Image>
             </StackLayout>
-        <StackLayout Margin="20" VerticalOptions="EndAndExpand">
-            <StackLayout>
-                <Entry Text="{Binding Login}"></Entry>
-                <Entry Text="{Binding Password}"></Entry>
-                    <StackLayout Orientation="Horizontal">
-                        <Button VerticalOptions="EndAndExpand" BackgroundColor="DarkGreen" TextColor="White" Text="Subscribe" HorizontalOptions="StartAndExpand"></Button>
-                        <Button VerticalOptions="EndAndExpand" BackgroundColor="CadetBlue" TextColor="White" Text="Login" Command="{Binding OnSubmitCommand}" HorizontalOptions="EndAndExpand"></Button>
-                    </StackLayout>
+        <StackLayout Margin="50,40,50,30" VerticalOptions="CenterAndExpand">
+                    <Entry  Placeholder="Login.." Text="{Binding Login}"></Entry>
+                    <Entry Placeholder="Password.." IsPassword="True" Text="{Binding Password}"></Entry>
                 </StackLayout>
-        </StackLayout>
-        </StackLayout>
+
+                <StackLayout HorizontalOptions="FillAndExpand" Margin="40,20,40,40" VerticalOptions="EndAndExpand">
+            <Button   CornerRadius="40" HeightRequest="40"  BackgroundColor="White" TextColor="#004d40" Text="Connect" Command="{Binding OnSubmitCommand}" HorizontalOptions="CenterAndExpand"></Button>
+                    <StackLayout Orientation="Horizontal" Margin="10,20,10,20" HorizontalOptions="CenterAndExpand">
+                        <BoxView HeightRequest="0.5" VerticalOptions="CenterAndExpand" BackgroundColor="White" WidthRequest="40"></BoxView>
+                        <Label Text="Or"  FontSize="20" TextColor="White"></Label>
+                        <BoxView HeightRequest="0.5" VerticalOptions="CenterAndExpand" BackgroundColor="White" WidthRequest="40"></BoxView>
+                    </StackLayout>
+            <Button CornerRadius="40" BorderWidth="0.5"  HeightRequest="40" BorderColor="White"  VerticalOptions="EndAndExpand" BackgroundColor="Transparent" TextColor="White" Text="Subscribe" HorizontalOptions="CenterAndExpand" Command="{Binding OnSubscribeCommand}"></Button>
+                </StackLayout>
     </StackLayout>
 </ContentPage>

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using EmployeeManagement.Services;
 using EmployeeManagement.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 using static Xamarin.Forms.DependencyService;
 
 namespace EmployeeManagement.ViewModels
@@ -18,6 +22,9 @@ namespace EmployeeManagement.ViewModels
         #region Fields
         public Command<Object> updateCommand;
         public Command<Object> deleteCommand;
+        public Command<Object> displaydetailsCommand;
+
+        private Employee _oldEmployee;
 
         #endregion
 
@@ -33,6 +40,23 @@ namespace EmployeeManagement.ViewModels
         {
             get { return deleteCommand; }
             set { deleteCommand = value; }
+        }
+
+        public Command<Object> DetailsDisplayCommand
+        {
+            get { return displaydetailsCommand; }
+            set { displaydetailsCommand = value; }
+        }
+
+        public string _bar;
+
+        public string Bar
+        {
+            get { return _bar; }
+            set
+            {
+                SetProperty(ref _bar, value);
+            }
         }
 
 
@@ -60,44 +84,33 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
-        #region Constructor with parameters
+        #region GetData Method
 
-        public HomeViewModel(INavigation nav)
+          public  async void GetData()
         {
-            Data d = new Data();
-            _employeeList = d.EmployeeList;
-
-            _nav = nav;
-            CurrentPage = DependencyInject<HomePage>.Get();
-            OpenPage();
-
-
-            updateCommand = new Command<object>(OnUpdate);
-            deleteCommand = new Command<object>(OnDelete);
-
-        }
-
-        #region Consructor with list
-
-        public HomeViewModel(INavigation nav, ObservableCollection<Employee> emp)
-        {
-
-            EmployeeList = emp;
-
-            _nav = nav;
-            CurrentPage = DependencyInject<HomePage>.Get();
-            OpenPage();
-
-
-            updateCommand = new Command<object>(OnUpdate);
-            deleteCommand = new Command<object>(OnDelete);
-
+            _employeeList.Clear();
+            var emplist = await DataEmployee.GetAllAsync();
+            foreach (Employee e in emplist)
+            {
+                _employeeList.Add(e);
+            }
         }
 
         #endregion
 
+        #region Constructor with parameters
 
+        public HomeViewModel(INavigation nav)
+        {
+            GetData();
+            _nav = nav;
+            CurrentPage = DependencyInject<HomePage>.Get();
+            OpenPage();
 
+            updateCommand = new Command<object>(OnUpdate);
+            deleteCommand = new Command<object>(OnDelete);
+            DetailsDisplayCommand=new Command<object>(OnDetailsDisplay);
+        }
 
         #endregion
 
@@ -105,7 +118,7 @@ namespace EmployeeManagement.ViewModels
         public ICommand OnAddCommand => new Command(async () =>
               {
 
-                  var page = DependencyService.Get<AddViewModel>() ?? (new AddViewModel(_nav, _employeeList));
+                  var page = DependencyService.Get<AddViewModel>() ?? (new AddViewModel(_nav));
 
               });
         #endregion
@@ -115,30 +128,112 @@ namespace EmployeeManagement.ViewModels
         public void OnUpdate(Object o)
         {
             Employee E = (Employee)o;
-            var page = DependencyService.Get<UpdateViewModel>() ?? (new UpdateViewModel(_nav,E, _employeeList));
+            var page = DependencyService.Get<UpdateViewModel>() ?? (new UpdateViewModel(_nav, E));
 
 
         }
 
         #endregion
 
-        #region OnDelete Method Implementation
+        #region OnDetailsDisplay Method Implementation
 
-        public void OnDelete(Object o)
+        public void OnDetailsDisplay(Object o)
         {
-
-            
             Employee E = (Employee)o;
-            ObservableCollection<Employee> EmpList = _employeeList;
-            if (EmpList.Contains(E))
-            {
-                EmpList.Remove(E);
-            }
-            EmployeeList = EmpList;
-            }
-        
+               var page = DependencyService.Get<DetailsViewModel>() ?? (new DetailsViewModel(_nav, E));
+            
+        }
+
         #endregion
 
+        #region OnDelete Method Implementation
+
+        public async void OnDelete(Object o)
+        {
+
+            Employee E = (Employee)o;
+            var result = await CurrentPage.DisplayAlert("Alert!", "Are you sure you want to delete this employee?", "Yes", "No");
+            if (result) 
+            try
+            {
+                await DataEmployee.DeleteAsync(E);
+                 GetData();
+            }
+            catch (Exception e)
+            {
+                await CurrentPage.DisplayAlert("no", "no", "ok");
+            }
+
+
+
+        }
+
+        #endregion
+
+        #region Methods form expandable list
+
+        public void ShowOrHideEmployees(Employee employee)
+        {
+            if (_oldEmployee == employee)
+            {
+                // click twice on the same item will hide it
+                employee.IsVisible = !employee.IsVisible;
+                UpdateEmployees(employee);
+            }
+            else
+            {
+                if (_oldEmployee != null)
+                {
+                    // hide previous selected item
+                    _oldEmployee.IsVisible = false;
+                    UpdateEmployees(_oldEmployee);
+                }
+                // show selected item
+                employee.IsVisible = true;
+                UpdateEmployees(employee);
+            }
+
+            _oldEmployee = employee;
+        }
+
+        private void UpdateEmployees(Employee employee)
+        {
+            if (_employeeList.Contains(employee))
+           {
+                var index = _employeeList.IndexOf(employee);
+                _employeeList.Remove(employee);
+                _employeeList.Insert(index, employee);
+            }
+        }
+
+        #endregion
+
+        #region SearchCommand Method
+
+ public Command SearchCommand
+        {
+            get
+            {
+                return new Command(() =>
+                    {
+                        var emplist=new ObservableCollection<Employee>();
+                        IEnumerable<Employee> searchresult = _employeeList.Where(emp => emp.Name.Contains(_bar));
+                        foreach (var VARIABLE in searchresult)
+                        {
+                            emplist.Add(VARIABLE);
+                        }
+
+                        _employeeList = emplist;
+                    }
+                    );
+
+
+            }
+        }
+
+        #endregion
+
+       
 
     }
 

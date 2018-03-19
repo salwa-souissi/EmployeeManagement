@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement.Views.SubscribePage"
+             BackgroundImage="back.png">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Order="Primary" Text="Subscribe"  Command="{Binding OnSubscribeCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+
+        <StackLayout  VerticalOptions="CenterAndExpand">
+            <Label Text="Please fill the following entries to subscribe :" Style="{StaticResource TitleStyle}"></Label>
+            <Entry Margin="40,0,40,10 " Placeholder="Login.."    Text="{Binding Login}"></Entry>
+            <Entry Margin="40,0,40,0" Placeholder="Password.."  Text="{Binding Password}"></Entry>
+          
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
