@@ -55,11 +55,15 @@ namespace EmployeeManagement.ViewModels
             get { return _bar; }
             set
             {
-                SetProperty(ref _bar, value);
+            SetProperty(ref _bar, value);
+                var emplist = new ObservableCollection<Employee>();
+                IEnumerable<Employee> searchresult = _employeeList.Where(emp => emp.Name.Contains(_bar));
+                var l=  CurrentPage.FindByName<ListView>("list");
+                l.ItemsSource = searchresult;
+
             }
         }
-
-
+        
         public INavigation Nav
         {
             get
@@ -68,11 +72,7 @@ namespace EmployeeManagement.ViewModels
             }
             set { _nav = value; }
         }
-
-
-
-        //   public ICommand OnAddCommand { protected set; get; }
-
+        
 
         #endregion
 
@@ -115,7 +115,7 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region OnAddCommand Treatment
-        public ICommand OnAddCommand => new Command(async () =>
+        public ICommand OnAddCommand => new Command( () =>
               {
 
                   var page = DependencyService.Get<AddViewModel>() ?? (new AddViewModel(_nav));
@@ -208,33 +208,7 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
-        #region SearchCommand Method
-
- public Command SearchCommand
-        {
-            get
-            {
-                return new Command(() =>
-                    {
-                        var emplist=new ObservableCollection<Employee>();
-                        IEnumerable<Employee> searchresult = _employeeList.Where(emp => emp.Name.Contains(_bar));
-                        foreach (var VARIABLE in searchresult)
-                        {
-                            emplist.Add(VARIABLE);
-                        }
-
-                        _employeeList = emplist;
-                    }
-                    );
-
-
-            }
-        }
-
-        #endregion
-
        
-
     }
 
 

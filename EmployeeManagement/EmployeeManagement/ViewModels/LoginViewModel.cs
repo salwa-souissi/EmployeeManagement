@@ -13,9 +13,7 @@ namespace EmployeeManagement.ViewModels
     class LoginViewModel : BaseViewModel
     {
 
-        #region Fields
-        #endregion
-
+       
         #region Properties
 
 
@@ -90,7 +88,7 @@ namespace EmployeeManagement.ViewModels
 
         #region OnSubscribeCommand
 
-        public ICommand OnSubscribeCommand => new Command(async () =>
+        public ICommand OnSubscribeCommand => new Command( () =>
                {
                    var page1 = DependencyService.Get<SubscribeViewModel>() ?? (new SubscribeViewModel(_nav));
 

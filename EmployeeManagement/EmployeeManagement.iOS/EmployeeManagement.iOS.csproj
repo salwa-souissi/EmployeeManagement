@@ -141,6 +141,36 @@
     <BundleResource Include="background1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\background1.jpg" />
+    <AndroidResource Include="Resources\background1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\back1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\background5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\image0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\root.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\root1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\root2.png" />
   </ItemGroup>
 </Project>

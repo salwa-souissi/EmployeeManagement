@@ -7,10 +7,9 @@
         <ToolbarItem  Order="Primary"  Text="Add Employee"  Command="{Binding OnAddCommand}" />
     </ContentPage.ToolbarItems>
     <StackLayout x:Name="ListEmployees">
-        <SearchBar x:Name="SearchBar" PlaceholderColor="#004d40" Placeholder="Search an Employee here !"  Text="{Binding Bar}" TextChanged="SearchBar_OnTextChanged"
-                   SearchCommand="{Binding SearchCommand}"></SearchBar>
+        <SearchBar x:Name="SearchBar" PlaceholderColor="#004d40" Placeholder="Search an Employee here !"  Text="{Binding Bar}" ></SearchBar>
         <StackLayout Orientation="Vertical"  Margin="10,10,10,0" VerticalOptions="FillAndExpand" >
-            <ListView x:Name="list"   HasUnevenRows="True"  VerticalOptions="FillAndExpand" ItemTapped="ListView_OnItemTapped"  >
+            <ListView x:Name="list"   HasUnevenRows="True"  VerticalOptions="FillAndExpand" ItemTapped="ListView_OnItemTapped" >
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="ItemTemplate" x:Key="ItemTemplate" >
                         <ViewCell >

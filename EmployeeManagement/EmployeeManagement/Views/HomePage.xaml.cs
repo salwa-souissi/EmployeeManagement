@@ -34,31 +34,18 @@ namespace EmployeeManagement.Views
 
 	    #endregion
        
-	    #region Metho d for expandable list
+	    #region Method for expandable list
 
 	      private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var product = e.Item as Employee;
+	        var employee = e.Item as Employee;
 	        var vm = BindingContext as HomeViewModel;
-	        vm.ShowOrHideEmployees(product);
+	        vm.ShowOrHideEmployees(employee);
 	    }
 
 	    #endregion
       
-        #region Serachbar Method
-	    private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
-	    {
-	        var vm = this.BindingContext as HomeViewModel;
-	        if (string.IsNullOrEmpty(e.NewTextValue))
-	        {
-	            list.ItemsSource = vm._employeeList;
-	        }
-	        else
-	        {
-	            list.ItemsSource = vm._employeeList.Where(x => x.Name.ToLower().Contains(e.NewTextValue.ToLower()));
-	        }
-	    }
-        #endregion
+     
 
     }
 }
