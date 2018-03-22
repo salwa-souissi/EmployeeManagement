@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using EmployeeManagement.Views;
+using Root.Services.Sqlite;
 using Xamarin.Forms;
 
 namespace EmployeeManagement.ViewModels
 {
     class DetailsViewModel : BaseViewModel
     {
+        public IDataStore<Employee> DataEmployee => DependencyService.Get<DataStore<Employee>>() ?? (new DataStore<Employee>("DataBase.db3"));
+
+
         #region Fields
         #endregion
 

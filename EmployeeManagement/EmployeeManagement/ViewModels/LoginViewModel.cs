@@ -7,13 +7,22 @@ using System.Net.Http.Headers;
 using System.Windows.Input;
 using EmployeeManagement.Models;
 using Xamarin.Forms;
+using System.IO;
+using Root.Services.Sqlite;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+
 
 namespace EmployeeManagement.ViewModels
 {
-    class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
+        public IDataStore<User> DataUser => (DependencyService.Get<DataStore<User>>()) ?? (new DataStore<User>("DataBase.db3"));
+        private readonly IDependencyService _dependencyService;
 
-       
+
         #region Properties
 
 
@@ -67,32 +76,40 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Constructor without parametres
-        public LoginViewModel()
+        public LoginViewModel() : this(new DependencyServiceWrapper())
         {
 
 
         }
         #endregion
 
-        #region Constructor with parameters
+        #region Constructor with nav parameters
 
         public LoginViewModel(INavigation nav)
         {
             _nav = nav;
             CurrentPage = DependencyInject<LoginPage>.Get();
-
-
-
         }
+
+        #endregion
+
+        #region Constructor with dependencyService parameters
+
+
+        public LoginViewModel(IDependencyService dependencyService)
+        {
+            _dependencyService = dependencyService;
+        }
+
         #endregion
 
         #region OnSubscribeCommand
 
-        public ICommand OnSubscribeCommand => new Command( () =>
-               {
-                   var page1 = DependencyService.Get<SubscribeViewModel>() ?? (new SubscribeViewModel(_nav));
+        public ICommand OnSubscribeCommand => new Command(() =>
+              {
+                  var page1 = DependencyService.Get<SubscribeViewModel>() ?? (new SubscribeViewModel(_nav));
 
-               });
+              });
 
 
         #endregion
@@ -100,31 +117,44 @@ namespace EmployeeManagement.ViewModels
         #region OnSubmitCommand Treatment
 
 
-        public ICommand OnSubmitCommand => new Command(async () =>
-               {
+        public ICommand OnSubmitCommand
+        {
+
+            get
+            {
+                return new Command(async () =>
+                    {
+                        try
+                        {
 
 
-                   var user = await DataUser.GetAllAsync(x => x.Login.Equals(_login) && x.Password.Equals(_password));
+                            var user = await DataUser.GetAllAsync(x => x.Login.Equals(_login) && x.Password.Equals(_password));
 
-                   if (user.Count() > 0)
-                   {
-                     
+                            if (user.Count() > 0)
+                            {
+                                var page1 = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav));
 
-                       var page1 = DependencyService.Get<HomeViewModel>() ?? (new HomeViewModel(_nav));
-                   }
-                   else
-                   {
-                       Alerttitle = "Error";
-                       Alertmsg = "Please verify your login and password";
-                       DisplayPrompt();
-                   }
+                            }
+                            else
+                            {
+                                Alerttitle = "Error";
+                                Alertmsg = "Please verify your login and password";
+                                DisplayPrompt();
+                            }
+
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                    });
 
 
+            }
+
+        }
 
 
-
-
-               });
 
         #endregion
 

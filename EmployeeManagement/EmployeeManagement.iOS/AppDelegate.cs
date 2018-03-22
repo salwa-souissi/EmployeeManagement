@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Reflection;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace EmployeeManagement.iOS
 {
@@ -13,6 +14,8 @@ namespace EmployeeManagement.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -26,6 +29,7 @@ namespace EmployeeManagement.iOS
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+           
         }
     }
 }

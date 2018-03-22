@@ -5,15 +5,20 @@ using System.Windows.Input;
 using EmployeeManagement.Models;
 using Xamarin.Forms;
 using EmployeeManagement.Views;
+using Root.Services.Sqlite;
 
 
 namespace EmployeeManagement.ViewModels
 {
-    class SubscribeViewModel : BaseViewModel
+   public class SubscribeViewModel : BaseViewModel
     {
+
+        public IDataStore<User> DataUser => DependencyService.Get<DataStore<User>>() ?? new DataStore<User>("DataBase.db3");
+        private readonly IDependencyService _dependencyService;
+
         #region Properties
 
-          private INavigation _navigation;
+        private INavigation _navigation;
 
         public INavigation Nav
         {
@@ -63,10 +68,10 @@ namespace EmployeeManagement.ViewModels
         #endregion
 
         #region Constructor without parameters
-        public SubscribeViewModel()
-        {
+        //public SubscribeViewModel() : this(new DependencyServiceWrapper())
+        //{
 
-        }
+        //}
         #endregion
 
         #region Constructor with parameter
@@ -77,6 +82,8 @@ namespace EmployeeManagement.ViewModels
             OpenPage();
           
         }
+
+
 
         #endregion
 

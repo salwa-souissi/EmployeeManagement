@@ -6,12 +6,16 @@ using System.Text;
 using System.Windows.Input;
 using EmployeeManagement.Services;
 using EmployeeManagement.Views;
+using Root.Services.Sqlite;
 using Xamarin.Forms;
 
 namespace EmployeeManagement.ViewModels
 {
-    class AddViewModel : BaseViewModel
+ public   class AddViewModel : BaseViewModel
     {
+        public IDataStore<Employee> DataEmployee => DependencyService.Get<DataStore<Employee>>() ?? (new DataStore<Employee>("DataBase.db3"));
+
+
         #region Fields
         public Action DisplayPrompt;
 

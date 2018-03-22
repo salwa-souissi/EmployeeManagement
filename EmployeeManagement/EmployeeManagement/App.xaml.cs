@@ -13,7 +13,6 @@ namespace EmployeeManagement
 		public App ()
 		{
 			InitializeComponent();
-
             var model = DependencyInject<LoginViewModel>.Get();
 
             model.CurrentPage = DependencyInject<Views.LoginPage>.Get();

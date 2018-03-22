@@ -9,33 +9,29 @@ using EmployeeManagement.Annotations;
 using EmployeeManagement.Models;
 using Root.Services.Sqlite;
 using Xamarin.Forms;
-
+using System.IO;
 namespace EmployeeManagement.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public string filename, filename2;
 
-        #region DataBase
+     
 
-         public IDataStore<User> DataUser => DependencyService.Get<DataStore<User>>() ?? (new DataStore<User>("DataBase.db3"));
-        public IDataStore<Employee> DataEmployee => DependencyService.Get<DataStore<Employee>>() ?? (new DataStore<Employee>("DataBase.db3"));
-
-            
-        #endregion
-       
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Employee> _employeeList=new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> _employeeList = new ObservableCollection<Employee>();
 
-        public ObservableCollection<Employee> EmployeeList {
+        public ObservableCollection<Employee> EmployeeList
+        {
             get
             {
                 return _employeeList;
             }
-            set { SetProperty(ref _employeeList, value); } }
+            set { SetProperty(ref _employeeList, value); }
+        }
 
         public Action DisplayPrompt;
-        public Action DisplayPromptWithValidation;
 
 
         public string Alerttitle { get; set; }
@@ -122,8 +118,16 @@ namespace EmployeeManagement.ViewModels
         public BaseViewModel()
         {
             this.DisplayPrompt += () => CurrentPage.DisplayAlert(Alerttitle, Alertmsg, "ok");
-            DataUser.CreateTableAsync();
-            DataEmployee.CreateTableAsync();
+
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            // filename = Path.Combine(path, "LogFile.txt");
+            //File.WriteAllText(filename, "LogFile.txt");
+
+            //string path2 = "C:\\";
+            //filename2 = Path.Combine(path2, "LogFile.txt");
+            //Console.WriteLine(filename2);
+            //File.WriteAllText(filename2, "LogFile.txt");
+
 
         }
         #endregion
@@ -213,7 +217,31 @@ namespace EmployeeManagement.ViewModels
 
         #endregion
 
-    
+        #region Manipulate Excesptions
+
+        public void TraceExceptionDetails(Exception e)
+        {
+
+        #if DEBUG
+            {
+                string exceptionDetails = "-----------" + e.InnerException 
+                                                        + "-----------" + e.Source 
+                                                        + "-----------" + e.Message 
+                                                        + "-----------" + e.StackTrace 
+                                                        + "-----------" + e.HelpLink;
+                File.WriteAllText(filename, exceptionDetails);
+            }
+
+        #else
+            {
+             string ExceptionDetails = "" + e.InnerException + "" + e.Source + "" + e.Message + "" + e.StackTrace + "" + e.HelpLink;
+             File.WriteAllText(filename, ExceptionDetails);
+             CurrentPage.DisplayAlert("Alert", "SomeThing get wrong!!", "Ok");
+        }
+        #endif
+
+        }
+        #endregion
 
     }
 
